@@ -1,0 +1,182 @@
+ul{   
+    list-style: none;
+    padding-left: 0;
+}
+
+/* NAVIGATION */
+nav{
+    display: flex;
+    background-color: #ccc;
+    justify-content: space-between;
+}
+
+ul.tabs{
+    display: flex;
+    align-items: center;
+}
+
+.sitename{
+    display: block;
+    font-size: 30px;
+    margin: 1.0rem;
+    font-weight: bold;
+}
+
+li.tab{
+    display: block;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+    padding: 0.8rem;
+}
+
+/* MAIN */
+main{
+    display: flex;
+}
+
+div.game{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 4;
+    background-color: #ccc;
+    margin-top: 1rem;
+}
+
+.gametitle{
+    margin: 0.5rem;
+    padding: 0.8rem;
+    font-weight: bold;
+    font-size: large;
+}
+
+div.maingame{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 1rem 0;
+}
+
+div.anstype{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 50%;
+}
+
+input[type="image"]{
+    object-fit: cover;
+    height: 3rem;
+    width: 3rem;
+}
+
+table.board{
+    display: flex;
+    flex-wrap: wrap;
+    border: 2px solid;
+}
+
+.row {
+    display: flex;
+} 
+
+td.grid{
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #ddd;
+    height: 150px;
+    width: 150px;
+    margin: 0;
+    padding: 0;
+    outline: 3px solid;
+}
+
+ul.cell{
+    display: flex;
+    flex-wrap: wrap;
+    height: calc(100%/3);
+    width: calc(100%/3);
+    background-color: #fff;
+    margin: 0;
+    outline: 1px solid;
+}
+
+.grid :hover{
+    background-color: #ccc;
+}
+
+li.note{
+    height: calc(100%/3);
+    width: calc(100%/3);
+    font-size: 15px;
+    text-align: center;
+    margin: 0;
+    cursor: default;
+    user-select: none;
+}
+
+.answercell{
+    display: none;
+    text-align: center;
+    font-size: 40px;
+    height: 100%;
+    width: 100%;
+    cursor: default;
+    user-select: none;
+}
+
+div.numbers{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 80%;
+    user-select: none;
+}
+
+label.number{
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    padding: 0.7rem;
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+input[type="radio"] {
+    display:none;   
+}
+
+label.answermode{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 3.5rem;
+    width: 3.5rem;
+    border: 1px solid;
+    border-radius: 50%;
+}
+
+input[type="radio"].number:checked + label {
+    font-size: 45px;
+    color: rgb(21, 111, 196);
+}
+
+input[type="radio"].answermode:checked + label {
+    background-color: #fff;
+}
+
+aside{
+    margin-top: 1rem;
+    flex-grow: 3;
+    margin-left: 0.5rem;
+    background-color: #ccc;
+}
+
+@media only screen and (max-width: 768px) {
+    main{
+        display: flex;
+        flex-direction: column;
+    }
+}

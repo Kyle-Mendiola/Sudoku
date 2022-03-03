@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Sudoku.css">
+    <title>Solve</title>
+    <script src="CellNoteFormatting.js"></script>
+    <script src="SudokuElements.js"></script>
+    <script src="SudokuLogic.js"></script>
+</head>
+<body>
+    <nav>
+        <p class="sitename">SOLVE!</p>
+        <ul class="tabs">
+            <li class="tab"><a href="">Sudoku</a></li>
+            <li class="tab"><a href="">Picross</a></li>
+            <li class="tab"><a href="">Tic Tac Toe</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div class="game">
+            <span class="gametitle">Sudoku</span>
+            <div class="maingame">
+                <div class="anstype">
+                    <input type="radio" value="1" class="answermode" name="answermode" id="writemode" checked>
+                    <label class="answermode" for="writemode">
+                        <img class="icon" src="https://img.icons8.com/ios-glyphs/30/000000/pencil--v1.png" alt="">
+                    </label>
+                    <input type="radio" value="0" class="answermode" name="answermode" id="notemode">
+                    <label class="answermode" for="notemode">
+                        <img class="icon" src="https://img.icons8.com/material-rounded/24/000000/note.png" alt="">
+                    </label>
+                </div>
+                <table class="board">
+                    <tr class="row row1">
+                        <td class="grid grid1">
+                            <ul class="cell r1 c1"></ul>
+                            <ul class="cell r1 c2"></ul>
+                            <ul class="cell r1 c3"></ul>
+                            <ul class="cell r2 c1"></ul>
+                            <ul class="cell r2 c2"></ul>
+                            <ul class="cell r2 c3"></ul>
+                            <ul class="cell r3 c1"></ul>
+                            <ul class="cell r3 c2"></ul>
+                            <ul class="cell r3 c3"></ul>
+                        </td>
+                        <td class="grid grid2">
+                            <ul class="cell r1 c4"></ul>
+                            <ul class="cell r1 c5"></ul>
+                            <ul class="cell r1 c6"></ul>
+                            <ul class="cell r2 c4"></ul>
+                            <ul class="cell r2 c5"></ul>
+                            <ul class="cell r2 c6"></ul>
+                            <ul class="cell r3 c4"></ul>
+                            <ul class="cell r3 c5"></ul>
+                            <ul class="cell r3 c6"></ul>
+                        </td>
+                        <td class="grid grid3">
+                            <ul class="cell r1 c7"></ul>
+                            <ul class="cell r1 c8"></ul>
+                            <ul class="cell r1 c9"></ul>
+                            <ul class="cell r2 c7"></ul>
+                            <ul class="cell r2 c8"></ul>
+                            <ul class="cell r2 c9"></ul>
+                            <ul class="cell r3 c7"></ul>
+                            <ul class="cell r3 c8"></ul>
+                            <ul class="cell r3 c9"></ul>
+                        </td>
+                    </tr>
+                    <tr class="row row2">
+                        <td class="grid grid4">
+                            <ul class="cell r4 c1"></ul>
+                            <ul class="cell r4 c2"></ul>
+                            <ul class="cell r4 c3"></ul>
+                            <ul class="cell r5 c1"></ul>
+                            <ul class="cell r5 c2"></ul>
+                            <ul class="cell r5 c3"></ul>
+                            <ul class="cell r6 c1"></ul>
+                            <ul class="cell r6 c2"></ul>
+                            <ul class="cell r6 c3"></ul>
+                        </td>
+                        <td class="grid grid5">
+                            <ul class="cell r4 c4"></ul>
+                            <ul class="cell r4 c5"></ul>
+                            <ul class="cell r4 c6"></ul>
+                            <ul class="cell r5 c4"></ul>
+                            <ul class="cell r5 c5"></ul>
+                            <ul class="cell r5 c6"></ul>
+                            <ul class="cell r6 c4"></ul>
+                            <ul class="cell r6 c5"></ul>
+                            <ul class="cell r6 c6"></ul>
+                        </td>
+                        <td class="grid grid6">
+                            <ul class="cell r4 c7"></ul>
+                            <ul class="cell r4 c8"></ul>
+                            <ul class="cell r4 c9"></ul>
+                            <ul class="cell r5 c7"></ul>
+                            <ul class="cell r5 c8"></ul>
+                            <ul class="cell r5 c9"></ul>
+                            <ul class="cell r6 c7"></ul>
+                            <ul class="cell r6 c8"></ul>
+                            <ul class="cell r6 c9"></ul>
+                        </td>
+                    </tr>
+                    <tr class="row row3">
+                        <td class="grid grid7">
+                            <ul class="cell r7 c1"></ul>
+                            <ul class="cell r7 c2"></ul>
+                            <ul class="cell r7 c3"></ul>
+                            <ul class="cell r8 c1"></ul>
+                            <ul class="cell r8 c2"></ul>
+                            <ul class="cell r8 c3"></ul>
+                            <ul class="cell r9 c1"></ul>
+                            <ul class="cell r9 c2"></ul>
+                            <ul class="cell r9 c3"></ul>
+                        </td>
+                        <td class="grid grid8">
+                            <ul class="cell r7 c4"></ul>
+                            <ul class="cell r7 c5"></ul>
+                            <ul class="cell r7 c6"></ul>
+                            <ul class="cell r8 c4"></ul>
+                            <ul class="cell r8 c5"></ul>
+                            <ul class="cell r8 c6"></ul>
+                            <ul class="cell r9 c4"></ul>
+                            <ul class="cell r9 c5"></ul>
+                            <ul class="cell r9 c6"></ul>
+                        </td>
+                        <td class="grid grid9">
+                            <ul class="cell r7 c7"></ul>
+                            <ul class="cell r7 c8"></ul>
+                            <ul class="cell r7 c9"></ul>
+                            <ul class="cell r8 c7"></ul>
+                            <ul class="cell r8 c8"></ul>
+                            <ul class="cell r8 c9"></ul>                            
+                            <ul class="cell r9 c7"></ul>
+                            <ul class="cell r9 c8"></ul>
+                            <ul class="cell r9 c9"></ul>
+                        </td>
+                    </tr>
+                </table>
+                <div class="numbers">
+                    <input class="number" value="1" type="radio" name="number" id="no1" checked>
+                    <label class="number no1" for="no1">1</label>
+                    <input class="number" value="2" type="radio" name="number" id="no2">
+                    <label class="number no2" for="no2">2</label>
+                    <input class="number" value="3" type="radio" name="number" id="no3">
+                    <label class="number no3" for="no3">3</label>
+                    <input class="number" value="4" type="radio" name="number" id="no4">
+                    <label class="number no4" for="no4">4</label>
+                    <input class="number" value="5" type="radio" name="number" id="no5">
+                    <label class="number no5" for="no5">5</label>
+                    <input class="number" value="6" type="radio" name="number" id="no6">
+                    <label class="number no6" for="no6">6</label>
+                    <input class="number" value="7" type="radio" name="number" id="no7">
+                    <label class="number no7" for="no7">7</label>
+                    <input class="number" value="8" type="radio" name="number" id="no8">
+                    <label class="number no8" for="no8">8</label>
+                    <input class="number" value="9" type="radio" name="number" id="no9">
+                    <label class="number no9" for="no9">9</label>
+                </div>
+            </div>
+            <div class="quickbuttons">
+                <button id="clear" onclick="cleanNotes()">Clear Notes</button>
+            </div>
+        </div>
+        <aside>
+            Side
+        </aside>
+    </main>
+    <script>
+        addListElements(); // Create 10 List elements in each ul
+        assignEvents();
+    </script>
+</body>
+</html>
