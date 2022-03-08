@@ -1,23 +1,3 @@
-const ROW = 0; const COLUMN = 1; 
-const GRID = 2; const ALL = 3;
-
-/**
- * Add 9 note<li> and 1 answer<li> child elements to all <ul>
- */
-function addListElements(){
-    let cells = document.querySelectorAll("ul.cell");
-    for (let index = 0; index < cells.length; index++) {
-        for (let notenumber = 1; notenumber <= 9; notenumber++) {
-            listElement = document.createElement('li');
-            listElement.setAttribute('class', `note note${notenumber}`);
-            cells[index].appendChild(listElement);
-        }
-        answerCell = document.createElement("li");
-        answerCell.setAttribute('class', 'answercell');
-        cells[index].appendChild(answerCell);
-    }  
-}
-
 /**
  * Assign all needed events to elements
  */
@@ -25,15 +5,12 @@ function assignEvents(){
     for (let rowindex = 1; rowindex <= 9; rowindex++) {
         for (let colindex = 1; colindex <= 9; colindex++) {
             let cell = getCell(rowindex, colindex);
-            cell.row = rowindex;
-            cell.column = colindex;
-            cell.rowmates = getRowMates(cell);
-            cell.columnmates = getColumnMates(cell);
-            cell.answercell = cell.querySelector(".answercell");
-            cell.addEventListener("click", fillCell);
+            Board.allCells.push(new Cell(cell, rowindex, colindex));
         }
     }
-    document.getElementById("clear").addEventListener = ("click", cleanNotes);
+    for (let input of document.querySelectorAll('input.number')){
+        new NumberButton(input);
+    }
 }
 
 function isDisplayNone(element){
@@ -44,7 +21,7 @@ function removeArrayDuplicates(arr){
     return [...new Set(arr)];
 }
 /**
- * @param  {} arr array to split content arrays;
+ * @param  {} arr array to split its inner arrays;
  * Splits the array contents inside arr
  */
 function spreadArray(arr){

@@ -74,7 +74,8 @@ input[type="image"]{
 
 table.board{
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
     border: 2px solid;
 }
 
@@ -118,7 +119,6 @@ li.note{
 }
 
 .answercell{
-    display: none;
     text-align: center;
     font-size: 40px;
     height: 100%;
@@ -132,6 +132,7 @@ div.numbers{
     flex-direction: column;
     justify-content: space-around;
     height: 80%;
+    background-color: #ddd;
     user-select: none;
 }
 
@@ -173,6 +174,30 @@ aside{
     margin-left: 0.5rem;
     background-color: #ccc;
 }
+
+/* States */
+
+.hidden {
+   display: none; 
+}
+
+.conflict {
+    color: red !important;
+}
+
+label.disabled{
+    display: none;
+}
+
+ul.relativeCell{
+    background-color: #ccc !important;
+}
+
+.highlighted{
+    color: rgb(92, 189, 250);
+}
+
+/* Media Queries */
 
 @media only screen and (max-width: 768px) {
     main{
