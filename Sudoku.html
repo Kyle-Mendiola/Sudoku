@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Css/Sudoku.css">
     <title>Solve</title>
-    <script src="Javascript/CellNoteFormatting.js"></script>
-    <script src="Javascript/SudokuElements.js"></script>
+    <script src="Javascript/UtilityFunctions.js"></script>
     <script src="Javascript/SudokuLogic.js"></script>
     <script src="Javascript/Cell.js"></script>
     <script src="Javascript/Board.js"></script>
+    <script src="Javascript/Note.js"></script>
+    <script src="Javascript/Answercell.js"></script>
 </head>
 <body>
     <nav>
@@ -33,6 +34,10 @@
                     <input type="radio" value="0" class="answermode" name="answermode" id="notemode">
                     <label class="answermode" for="notemode">
                         <img class="icon" src="https://img.icons8.com/material-rounded/24/000000/note.png" alt="">
+                    </label>
+                    <input type="radio" value="2" class="answermode" name="answermode" id="erasemode">
+                    <label class="answermode" for="erasemode">
+                        <img class="icon" src="https://img.icons8.com/ios-glyphs/30/000000/eraser.png" alt="">
                     </label>
                 </div>
                 <table class="board">
@@ -164,7 +169,7 @@
                 </div>
             </div>
             <div class="quickbuttons">
-                <button id="clear" onclick="cleanNotes()">Clear Notes</button>
+                <button id="undo" onclick="Game.undoLastMove">Undo</button>
             </div>
         </div>
         <aside>
@@ -174,7 +179,7 @@
     <script src="Javascript/Game.js"></script>
     <script src="Javascript/NumberButton.js"></script>
     <script>
-        assignEvents();
+        new Game;
     </script>
 </body>
 </html>

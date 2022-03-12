@@ -1,6 +1,6 @@
 class Board {
 
-    static allCells = [];
+    static allCells = []
 
     static getCell(row, column) {
         for (const cell of Board.allCells) {
@@ -28,7 +28,7 @@ class Board {
     static getFilledCells() {
         let filledCells = [];
         for (const cell of Board.allCells) {
-            if (cell.isFilled()) {
+            if (cell.filled) {
                 filledCells.push(cell);
             }
         }
@@ -53,12 +53,12 @@ class Board {
         let boardConflicts = Board.getBoardConflict();
         if (boardConflicts) {
             for (let index = 0; index < boardConflicts.length; index++) {
-                boardConflicts[index].answercell.classList.add("conflict");
+                boardConflicts[index].answerSlot.liAnswerSlot.classList.add("conflict");
             }
             let filledCells = Board.getFilledCells();
             for (let index = 0; index < filledCells.length; index++) {
                 if(!boardConflicts.includes(filledCells[index])){
-                    filledCells[index].answercell.classList.remove("conflict");
+                    filledCells[index].answerSlot.liAnswerSlot.classList.remove("conflict");
                 }
             }
             return

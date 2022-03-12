@@ -1,188 +1,120 @@
 const ROW = 0; const COLUMN = 1; const GRID = 2;
-const NOTEMODE = 0; const WRITEMODE = 1;
+const NOTEMODE = 0; const WRITEMODE = 1; const ERASEMODE = 2;
 
 class Cell{
     constructor(element, row, column){
         this.element = element;
         this.row = row;
         this.column = column;
-        this.answercell = '';
-        this.notes = []
+        this.answerSlot = new AnswerSlot(this);
+        this.notes = new Notes(this);
 
-        this.#addChildren();
-
-        this.element.addEventListener("click", this.fillCell);
-        this.registerEvent();
+        this.#registerEvents();
 
     }
-    hov(e){
-        for (let cell of this.#getRowMates()){
-            cell.element.classList.add('relativeCell');
-        }
-        for (let cell of this.#getColumnMates()){
-            cell.element.classList.add('relativeCell');
-        }
+
+    get filled(){
+        return this.answerSlot.answer.length > 0;
     }
 
-    hovoff(e){
-        for (let cell of this.#getRowMates()){
-            cell.element.classList.remove('relativeCell');
-        }
-        for (let cell of this.#getColumnMates()){
-            cell.element.classList.remove('relativeCell');
+    clearCell(){
+        this.notes.clearNotes();
+        this.resetCellDisplayState();
+        if(this.filled){
+            this.answerSlot.updateReplacedAnswer(this.answerSlot.liAnswerSlot.innerHTML);
         }
     }
 
-    registerEvent(){
-        const obj = this;
-        this.element.addEventListener("mouseenter", function(e) { obj.hov(e); });
-        this.element.addEventListener("mouseleave", function(e) { obj.hovoff(e); });
-    }
-
-    isFilled(){
-        if (this.answercell.innerHTML.length === 0){
-            return false;
-        }
-        return true;
-    }
-
-    eraseRelativeNotes(number){
-        let relatedCells = this.getRelativeCells();
-        for (let cell of relatedCells){
-            cell.getNote(number).innerHTML = "";
-        }
-    }
-
-    clearNotes(){
-        for (const note of this.notes){
-            note.innerHTML = "";
-        }
-    }
-
-    fillNote(number){
-        let note = this.getNote(number);
-        if (!this.isFilled()){
-            if (note.innerHTML === ""){
-                note.innerHTML = number;
-                return
-            }
-            note.innerHTML = "";
-            return
-        }
-        this.updateCellDisplayState();
-        this.answercell.innerHTML = "";
-        note.innerHTML = number;
-        Board.markBoardConflict();
-    }
-
-    fillAnswer(number){
-        let answer = this.answercell;
-        let objInput = NumberButton.getNumBtn(number);
-        if (this.isFilled()){
-            if (answer.innerHTML === number){
-                this.updateCellDisplayState();
-                this.updateAnswer("");
-                objInput.updateNumberState();
-                return;
-            }
-            this.updateReplacedAnswer(answer.innerHTML);
-            this.eraseRelativeNotes(number);
-            this.updateAnswer(number);
-            objInput.updateNumberState();
-            return;
-        }
-        this.updateCellDisplayState();
-        this.updateAnswer(number);
-        this.eraseRelativeNotes(number);
-        objInput.updateNumberState();
-    }
-
-    fillCell(e){
-        let targetCell = Board.getCellByElem(e.currentTarget);
-        if (getAnswerMode() == NOTEMODE){
-            targetCell.fillNote(Game.selectedNum);
-            return
-        }
-        if (getAnswerMode() == WRITEMODE){
-            targetCell.fillAnswer(Game.selectedNum);
-            return
-        }
-    }
-
-    updateAnswer(answer){
-        let updatedAns = this.answercell.innerHTML;
-        if (updatedAns == ""){
-            this.answercell.classList.add("highlighted");
-        }
-        this.answercell.innerHTML = answer;
-        Board.markBoardConflict();
-    }
-
-    updateReplacedAnswer(replacednum){
-        let replacedNumObj = NumberButton.getNumBtn(replacednum);
-
-        this.answercell.innerHTML = "";
-
-        replacedNumObj.updateNumberState();
-    }
-
-    toggleNoteDisplay(){
-        for (let note of this.notes){
-            note.classList.toggle('hidden')
-        }
+    resetCellDisplayState(){
+        this.notes.hideNoteDisplay();
+        this.answerSlot.liAnswerSlot.classList.add('hidden');
     }
 
     updateCellDisplayState(){
-        this.clearNotes();
-        this.toggleNoteDisplay();
-        this.answercell.classList.toggle('hidden');
-    }
-
-    getNote(number){
-        return this.element.querySelector(`.note${number}`);
+        this.notes.clearNotes();
+        this.notes.toggleNoteDisplay();
+        this.answerSlot.liAnswerSlot.classList.toggle('hidden');
     }
 
     getConflictCells(relation){
-        if (this.answercell.innerHTML.length === 0){
+        if (!this.filled){
             return false
         }
+
         let conflictingCells = [];
         let comparingCells = this.getRelativeCells(relation);
         for (let objCell of comparingCells) {
-            let answerToCompare = objCell.answercell.innerHTML;
-            if (answerToCompare === this.answercell.innerHTML){
+            let answerToCompare = objCell.answerSlot.liAnswerSlot.innerHTML;
+            if (answerToCompare === this.answerSlot.liAnswerSlot.innerHTML){
                 conflictingCells.push(objCell);
             } 
         }
+
         return conflictingCells;
     }
 
-    getRelativeCells(relation){
-        if (relation === undefined){
-            let relatedCells = [];
-            for (let rCell of this.#getRowMates()){
-                relatedCells.push(rCell);
-            }
-            for (let cCell of this.#getColumnMates()){
-                relatedCells.push(cCell);
-            }
-            for (let gCell of this.#getGridMates()){
-                relatedCells.push(gCell);
-            }
-            return removeArrayDuplicates(relatedCells);
+    getRelativeCells(){
+        let relatedCells = [];
+        for (let rCell of this.#getRowMates()){
+            relatedCells.push(rCell);
         }
-        if (relation === ROW){
-            return this.#getRowMates();
+        for (let cCell of this.#getColumnMates()){
+            relatedCells.push(cCell);
         }
-        if (relation === COLUMN){
-            return this.#getColumnMates();
+        for (let gCell of this.#getGridMates()){
+            relatedCells.push(gCell);
         }
-        if (relation === GRID){
-            return this.#getGridMates();
+        return removeArrayDuplicates(relatedCells);
+    }
+
+    registerLastMove(){
+        pr("");
+    }
+
+//#region Event Listeners
+    fillCell(e){
+        let targetCell = Board.getCellByElem(e.currentTarget);
+        if (Game.inputMode == NOTEMODE){
+            targetCell.notes.fillNote(Game.selectedNum);
+            return
+        }
+        if (Game.inputMode == WRITEMODE){
+            targetCell.answerSlot.fillAnswer(Game.selectedNum);
+            return
+        }
+        if (Game.inputMode == ERASEMODE){
+            targetCell.clearCell();
+            return
         }
     }
 
+    hoveron(e){
+        for (let cell of this.#getRowMates()){
+            cell.element.classList.add('relativeCell');
+        }
+        for (let cell of this.#getColumnMates()){
+            cell.element.classList.add('relativeCell');
+        }
+    }
+
+    hoveroff(e){
+        for (let cell of this.#getRowMates()){
+            cell.element.classList.remove('relativeCell');
+        }
+        for (let cell of this.#getColumnMates()){
+            cell.element.classList.remove('relativeCell');
+        }
+    }
+
+//#endregion
+
 //#region Private Methods
+    #registerEvents(){
+        const obj = this;
+        this.element.addEventListener("click", obj.fillCell);
+        this.element.addEventListener("mouseenter", function(e) { obj.hoveron(e); });
+        this.element.addEventListener("mouseleave", function(e) { obj.hoveroff(e); });
+    }
 
     #getRowMates(){
         let rowmates = [];
@@ -219,19 +151,6 @@ class Cell{
             gridmates.push(objCell);
         }
         return gridmates;
-    }
-
-    #addChildren(){
-        for (let notenumber = 1; notenumber <= 9; notenumber++) {
-            let listElement = document.createElement('li');
-            listElement.setAttribute('class', `note note${notenumber}`);
-            this.element.appendChild(listElement);
-            this.notes.push(listElement);
-        }
-        let answerCell = document.createElement("li");
-        answerCell.setAttribute('class', 'answercell hidden');
-        this.element.appendChild(answerCell);
-        this.answercell = answerCell;
     }
 }
 

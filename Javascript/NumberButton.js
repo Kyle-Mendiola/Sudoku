@@ -1,7 +1,6 @@
 class NumberButton {
 
     static numBtnList = [];
-    static prevValue = 1;
 
     constructor(numbtn) {
         this.numbtn = numbtn;
@@ -21,33 +20,10 @@ class NumberButton {
         }
     }
 
-    #registerEvents(){
-        const obj = this;
-        this.numbtn.addEventListener("change", function(e) { obj.highlightCells(e); });
-        this.numbtn.addEventListener('click', this.updateSelectedNum);
-    }
-
-    highlightCells(e){
-        let filledCells = Board.getFilledCells();
-        pr(this);
-        for (let cell of filledCells){
-            if (cell.answercell.innerHTML == this.value){
-                cell.answercell.classList.add("highlighted");
-                continue;
-            }
-            cell.answercell.classList.remove("highlighted");
-        }
-    }
-
-    updateSelectedNum(e) {
-        NumberButton.prevValue = 
-        Game.selectedNum = e.currentTarget.value;
-    }
-
     isNumberCompleted() {
         let counter = 0;
         for (let cell of Board.getFilledCells()) {
-            if (cell.answercell.innerHTML == this.value) {
+            if (cell.answerSlot.answer == this.value) {
                 counter = counter + 1;
             }
         }
@@ -86,4 +62,28 @@ class NumberButton {
             break;
         }
     }
+//#region Event Listeners
+    highlightCells(e){
+        let filledCells = Board.getFilledCells();
+        for (let cell of filledCells){
+            if (cell.answerSlot.answer == this.value){
+                cell.answerSlot.liAnswerSlot.classList.add("highlighted");
+                continue;
+            }
+            cell.answerSlot.liAnswerSlot.classList.remove("highlighted");
+        }
+    }
+
+    updateSelectedNum(e) {
+        Game.selectedNum = e.currentTarget.value;
+    }
+//#endregion
+
+//#region Private Methods
+    #registerEvents(){
+        const obj = this;
+        this.numbtn.addEventListener("change", function(e) { obj.highlightCells(e); });
+        this.numbtn.addEventListener('click', this.updateSelectedNum);
+    }
 }
+//#endregion

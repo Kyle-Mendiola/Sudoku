@@ -64,6 +64,7 @@ div.anstype{
     flex-direction: column;
     justify-content: space-around;
     height: 50%;
+    user-select: none;
 }
 
 input[type="image"]{
@@ -75,7 +76,7 @@ input[type="image"]{
 table.board{
     display: flex;
     flex-direction: column;
-    /* flex-wrap: wrap; */
+    padding: 2rem 2;
     border: 2px solid;
 }
 
@@ -137,7 +138,7 @@ div.numbers{
 }
 
 label.number{
-    font-size: 25px;
+    font-size: 21px;
     font-weight: bold;
     text-align: center;
     padding: 0.7rem;
@@ -186,7 +187,8 @@ aside{
 }
 
 label.disabled{
-    display: none;
+    color: #ddd;
+    cursor: default;
 }
 
 ul.relativeCell{
