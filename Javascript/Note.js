@@ -6,20 +6,28 @@ class Notes{
     }
 
     fillNote(number){
-        // this.registerLastMove();
         let note = this.getNote(number);
         if (!this.parentCell.filled){
             if (note.innerHTML === ""){
                 note.innerHTML = number;
-                return
+                return;
             }
             note.innerHTML = "";
-            return
+            return;
         }
         this.parentCell.updateCellDisplayState();
         this.parentCell.answerSlot.answer = "";
         note.innerHTML = number;
         Board.markBoardConflict();
+    }
+
+    forceFillNote(number){
+        let note = this.getNote(number);
+        if (!this.parentCell.filled){
+ 
+            note.innerHTML = "";
+            return;
+        }
     }
 
     getNote(notenum){
@@ -43,6 +51,16 @@ class Notes{
         this.notes.forEach((value) => {
             value.classList.toggle("hidden");
         });
+    }
+
+    getFilledNotes(){
+        const filledNotes = [];
+        this.notes.forEach((value) => {
+            if (value.innerHTML.length > 0){
+                filledNotes.push(parseInt(value.innerHTML));
+            }
+        });
+        return filledNotes;
     }
 
     hideNoteDisplay(){

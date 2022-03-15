@@ -1,5 +1,5 @@
 const ROW = 0; const COLUMN = 1; const GRID = 2;
-const NOTEMODE = 0; const WRITEMODE = 1; const ERASEMODE = 2;
+const NOTEMODE = 1; const WRITEMODE = 0; const ERASEMODE = 2;
 
 class Cell{
     constructor(element, row, column){
@@ -15,6 +15,15 @@ class Cell{
 
     get filled(){
         return this.answerSlot.answer.length > 0;
+    }
+
+    get empty(){
+        return (!this.filled) && 
+               (this.notes.getFilledNotes().length === 0);
+    }
+
+    get answer(){
+        return this.answerSlot.answer;
     }
 
     clearCell(){
@@ -44,8 +53,8 @@ class Cell{
         let conflictingCells = [];
         let comparingCells = this.getRelativeCells(relation);
         for (let objCell of comparingCells) {
-            let answerToCompare = objCell.answerSlot.liAnswerSlot.innerHTML;
-            if (answerToCompare === this.answerSlot.liAnswerSlot.innerHTML){
+            let answerToCompare = objCell.answerSlot.answer;
+            if (answerToCompare === this.answerSlot.answer){
                 conflictingCells.push(objCell);
             } 
         }
@@ -68,23 +77,67 @@ class Cell{
     }
 
     registerLastMove(){
-        pr("");
+        const lastMove = { 
+            cell: this,
+            value: Game.selectedNum
+        }
+
+        let inputMode = parseInt(Game.inputMode);
+
+        if (this.filled) { 
+            lastMove.prevValue = this.answer; 
+        }
+
+        switch(inputMode){
+            case WRITEMODE:
+                lastMove.mode = WRITEMODE;
+
+                const affectedCells = [];
+                for (let relCell of this.getRelativeCells()){
+                    if (relCell.notes.getNote(lastMove.value).innerHTML === Game.selectedNum){
+                        affectedCells.push(relCell);
+                    }
+                }
+                lastMove.notes = affectedCells;
+
+                lastMove.filledNotes = this.notes.getFilledNotes();
+
+                break;
+
+            case NOTEMODE:
+                lastMove.mode = NOTEMODE;
+    
+                break;
+
+            case ERASEMODE:
+                lastMove.mode = ERASEMODE;
+
+                lastMove.filledNotes = this.notes.getFilledNotes();
+                break;
+        }
+
+        Game.prevMove.push(lastMove);
     }
 
 //#region Event Listeners
     fillCell(e){
         let targetCell = Board.getCellByElem(e.currentTarget);
         if (Game.inputMode == NOTEMODE){
+            targetCell.registerLastMove();
             targetCell.notes.fillNote(Game.selectedNum);
-            return
+            return;
         }
         if (Game.inputMode == WRITEMODE){
+            targetCell.registerLastMove();
             targetCell.answerSlot.fillAnswer(Game.selectedNum);
-            return
+            return;
         }
         if (Game.inputMode == ERASEMODE){
+            if (!targetCell.empty) {
+                targetCell.registerLastMove();
+            }
             targetCell.clearCell();
-            return
+            return;
         }
     }
 

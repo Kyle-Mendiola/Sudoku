@@ -12,6 +12,7 @@
     <script src="Javascript/Board.js"></script>
     <script src="Javascript/Note.js"></script>
     <script src="Javascript/Answercell.js"></script>
+    <script src="Javascript/InputMode.js"></script>
 </head>
 <body>
     <nav>
@@ -27,11 +28,11 @@
             <span class="gametitle">Sudoku</span>
             <div class="maingame">
                 <div class="anstype">
-                    <input type="radio" value="1" class="answermode" name="answermode" id="writemode" checked>
+                    <input type="radio" value="0" class="answermode" name="answermode" id="writemode" checked>
                     <label class="answermode" for="writemode">
                         <img class="icon" src="https://img.icons8.com/ios-glyphs/30/000000/pencil--v1.png" alt="">
                     </label>
-                    <input type="radio" value="0" class="answermode" name="answermode" id="notemode">
+                    <input type="radio" value="1" class="answermode" name="answermode" id="notemode">
                     <label class="answermode" for="notemode">
                         <img class="icon" src="https://img.icons8.com/material-rounded/24/000000/note.png" alt="">
                     </label>
@@ -176,6 +177,9 @@
             Side
         </aside>
     </main>
+    <footer>
+        Foot
+    </footer>
     <script src="Javascript/Game.js"></script>
     <script src="Javascript/NumberButton.js"></script>
     <script>

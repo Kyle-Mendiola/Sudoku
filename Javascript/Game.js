@@ -5,34 +5,64 @@ class Game{
     static prevMove = [];
 
     constructor(){
-        registerInputEvents();
-        document.getElementById("undo").addEventListener('click', Game.undoLastMove);
+        document.getElementById("undo")
+            .addEventListener('click', Game.undoLastMove);
 
         Game.initGame();
     }
 
+    static get completed(){
+        return Board.getFilledCells().length === 81 
+            && Board.getBoardConflict().length === 0;
+    }
+
     static undoLastMove(){
-        let move = Game.prevMove.pop();
-        let cell = move.get('cell');
-        let filledNotes = [];
-        for (let note of move.get('notes')){
-            if (note.innerHTML.length != 0){
-                filledNotes.push(note);
-            }
+        if (Game.prevMove.length === 0){
+            prr("Can't Undo any further");
+            return;
         }
-        if (move.get('mode') == WRITEMODE){
-            if (move.get('value') != 0){
-                cell.fillAnswer(move.get('value'));
-            }
-            cell.updateAnswer('');
-            cell.updateCellDisplayState();
-        }
-        else{
-            // cell.answercell.innerHTML = "";
-            // for (let note of filledNotes){
-            //     note.innerHTML = 
-            // }
-            pr(filledNotes);
+
+        
+        const lastMove = Game.prevMove.pop();
+        prr(lastMove);
+
+        switch(lastMove.mode){
+            case NOTEMODE:
+                lastMove.cell.notes.fillNote(lastMove.value);
+
+                if (lastMove.hasOwnProperty("prevValue")){
+                    lastMove.cell.answerSlot.fillAnswer(lastMove.prevValue);
+                }
+
+                return
+
+            case WRITEMODE:
+                lastMove.cell.answerSlot.fillAnswer(lastMove.value);
+                for (let notenumber of lastMove.filledNotes){
+                    lastMove.cell.notes.fillNote(notenumber);
+                }
+
+                if (lastMove.hasOwnProperty("prevValue")){
+                    lastMove.cell.answerSlot.fillAnswer(lastMove.prevValue);
+                }
+
+                for (let cell of lastMove.notes){
+                    cell.notes.fillNote(lastMove.value);
+                }
+
+                return
+            
+            case ERASEMODE:
+                if (lastMove.hasOwnProperty("prevValue")){
+                    lastMove.cell.answerSlot.fillAnswer(lastMove.prevValue);
+                    return;
+                }
+                lastMove.cell.resetCellDisplayState();
+
+                for (let notenumber of lastMove.filledNotes){
+                    lastMove.cell.notes.fillNote(notenumber);
+                }
+                return;
         }
     }
 
@@ -46,6 +76,12 @@ class Game{
         for (let input of document.querySelectorAll('input.number')){
             new NumberButton(input);
         }
+
+        for (let input of document.querySelectorAll('input.answermode')){
+            new InputMode(input, input.value);
+        }
+
+        registerKeyboardEvents();
     }
 
     /**
@@ -58,17 +94,21 @@ class Game{
     }
 }
 
-function updateSelectedNum(e) {
-    Game.selectedNum = e.currentTarget.value;
-}
-
-function updateInputMode(e) {
-    Game.inputMode = e.currentTarget.value;
-}
-
-function registerInputEvents(){
-    inputs = document.querySelectorAll('input[type="radio"].answermode');
-    for (const i of inputs){
-        i.addEventListener('click', updateInputMode);
-    }
+function registerKeyboardEvents(){
+    document.addEventListener('keydown', function(event) {
+        switch (event.key) {
+            case "ArrowUp":
+                NumberButton.cycleToPrevNumber();
+                break;
+            case "ArrowDown":
+                NumberButton.cycleToNextNumber();
+                break;
+            case "ArrowLeft":
+                InputMode.cycleToPrevAnsMode();
+                break;
+            case "ArrowRight":
+                InputMode.cycleToNextAnsMode();
+                break;
+        }
+    });
 }

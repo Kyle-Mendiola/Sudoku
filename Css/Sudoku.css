@@ -10,6 +10,12 @@ nav{
     justify-content: space-between;
 }
 
+footer{
+    background-color: #ccc;
+    margin: 0.8rem 0;
+    height: 125px;
+}
+
 ul.tabs{
     display: flex;
     align-items: center;
@@ -35,6 +41,7 @@ a{
 /* MAIN */
 main{
     display: flex;
+    margin: 1.0rem 0;
 }
 
 div.game{
@@ -42,7 +49,7 @@ div.game{
     flex-direction: column;
     flex-grow: 4;
     background-color: #ccc;
-    margin-top: 1rem;
+    /* margin-top: 1rem; */
 }
 
 .gametitle{
@@ -170,7 +177,6 @@ input[type="radio"].answermode:checked + label {
 }
 
 aside{
-    margin-top: 1rem;
     flex-grow: 3;
     margin-left: 0.5rem;
     background-color: #ccc;
@@ -205,5 +211,8 @@ ul.relativeCell{
     main{
         display: flex;
         flex-direction: column;
+    }
+    aside{
+        margin: 0.5rem 0;
     }
 }

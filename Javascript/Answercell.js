@@ -21,7 +21,6 @@ class AnswerSlot{
     }
 
     fillAnswer(number){
-        // let answer = this.answer;
         let objInput = NumberButton.getNumBtn(number);
         if (this.parentCell.filled){
             if (this.answer === number){

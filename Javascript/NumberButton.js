@@ -20,6 +20,22 @@ class NumberButton {
         }
     }
 
+    static cycleToNextNumber(){
+        let curNum = parseInt(Game.selectedNum);
+        do {
+            curNum = (curNum === 9 ? 1 : curNum + 1);
+        } while (NumberButton.getNumBtn(curNum).disabled);
+        NumberButton.getNumBtn(curNum).numbtn.click();
+    }
+
+    static cycleToPrevNumber(){
+        let curNum = parseInt(Game.selectedNum);
+        do {
+            curNum = (curNum === 1 ? 9 : curNum - 1);
+        } while (NumberButton.getNumBtn(curNum).disabled);
+        NumberButton.getNumBtn(curNum).numbtn.click();
+    }
+
     isNumberCompleted() {
         let counter = 0;
         for (let cell of Board.getFilledCells()) {
