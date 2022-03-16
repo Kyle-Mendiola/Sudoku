@@ -129,10 +129,19 @@ li.note{
 .answercell{
     text-align: center;
     font-size: 40px;
+    color: rgb(151, 142, 142);
     height: 100%;
     width: 100%;
     cursor: default;
     user-select: none;
+}
+
+.cell.disabled{
+    pointer-events: none;
+}
+
+.answercell.disabled{
+    color: black;
 }
 
 div.numbers{
@@ -176,6 +185,30 @@ input[type="radio"].answermode:checked + label {
     background-color: #fff;
 }
 
+div.quickbuttons{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+div.quickbuttons > button{
+    height: 50px;
+    width: 4.8rem;
+    text-align: right;
+    margin: 0 0.3rem;
+    background: #eee left no-repeat;
+}
+
+#undo{
+    background-image: url('https://img.icons8.com/ios-glyphs/30/000000/undo.png') ;
+}
+
+#reset{
+    background-image: url("https://img.icons8.com/ios-filled/50/000000/recurring-appointment.png");
+    background-size: 25px;
+    background-position: 5px;
+}
+
 aside{
     flex-grow: 3;
     margin-left: 0.5rem;
@@ -201,8 +234,8 @@ ul.relativeCell{
     background-color: #ccc !important;
 }
 
-.highlighted{
-    color: rgb(92, 189, 250);
+.answercell.highlighted{
+    color: rgb(92, 189, 250) ;
 }
 
 /* Media Queries */

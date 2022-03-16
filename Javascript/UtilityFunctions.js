@@ -6,12 +6,6 @@ function removeArrayDuplicates(arr){
     return [...new Set(arr)];
 }
 
-function quickFill(){
-    for (let x of sampleBuild){
-        Board.getCell(x.row, x.col).answerSlot.fillAnswer(x.value);
-    }
-}
-
 const sampleBuild = [
     {value:1, row:1, col:1},
     {value:2, row:2, col:2},

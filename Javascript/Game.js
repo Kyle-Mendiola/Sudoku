@@ -22,9 +22,7 @@ class Game{
             return;
         }
 
-        
         const lastMove = Game.prevMove.pop();
-        prr(lastMove);
 
         switch(lastMove.mode){
             case NOTEMODE:

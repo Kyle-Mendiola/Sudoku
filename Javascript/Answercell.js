@@ -42,6 +42,15 @@ class AnswerSlot{
         objInput.updateNumberState();
     }
 
+    // Peramanently fill the cell until new Game
+    permFillAnswer(number){
+        const obj = this.parentCell;
+        this.fillAnswer(number);
+        this.parentCell.element.removeEventListener('click', obj.fillCell)
+        this.liAnswerSlot.classList.remove("highlighted");
+        this.liAnswerSlot.classList.add("disabled");
+    }
+
     highlightAnswer(){
         if (!this.parentCell.filled){
             this.liAnswerSlot.classList.add("highlighted");

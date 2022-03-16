@@ -1,6 +1,6 @@
 class Board {
 
-    static allCells = []
+    static allCells = [];
 
     static getCell(row, column) {
         for (const cell of Board.allCells) {
@@ -66,6 +66,12 @@ class Board {
         let filledCells = Board.getFilledCells();
         for (let index = 0; index < filledCells.length; index++) {
             boardConflicts[index].classList.remove("conflict");
+        }
+    }
+
+    static preFillNumbers(numbers){
+        for (let number of numbers){
+            Board.getCell(number.row, number.col).answerSlot.permFillAnswer(number.value);
         }
     }
 }

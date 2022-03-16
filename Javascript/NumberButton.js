@@ -12,6 +12,10 @@ class NumberButton {
         this.#registerEvents();
     }
 
+    get disabled(){
+        return this.numbtn.disabled;
+    }
+
     static getNumBtn(number) {
         for (let numbtn of NumberButton.numBtnList) {
             if (numbtn.value == number) {
@@ -22,16 +26,21 @@ class NumberButton {
 
     static cycleToNextNumber(){
         let curNum = parseInt(Game.selectedNum);
+        const firstNum = 1;
+        const lastNum = 9; 
         do {
-            curNum = (curNum === 9 ? 1 : curNum + 1);
+            curNum = (curNum === lastNum ? firstNum : curNum + 1);
         } while (NumberButton.getNumBtn(curNum).disabled);
+
         NumberButton.getNumBtn(curNum).numbtn.click();
     }
 
     static cycleToPrevNumber(){
         let curNum = parseInt(Game.selectedNum);
+        const firstNum = 1;
+        const lastNum = 9; 
         do {
-            curNum = (curNum === 1 ? 9 : curNum - 1);
+            curNum = (curNum === firstNum ? lastNum : curNum - 1);
         } while (NumberButton.getNumBtn(curNum).disabled);
         NumberButton.getNumBtn(curNum).numbtn.click();
     }
